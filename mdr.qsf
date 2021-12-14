@@ -1,0 +1,131 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 2020  Intel Corporation. All rights reserved.
+# Your use of Intel Corporation's design tools, logic functions 
+# and other software and tools, and any partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Intel Program License 
+# Subscription Agreement, the Intel Quartus Prime License Agreement,
+# the Intel FPGA IP License Agreement, or other applicable license
+# agreement, including, without limitation, that your use is for
+# the sole purpose of programming logic devices manufactured by
+# Intel and sold by Intel or its authorized distributors.  Please
+# refer to the applicable agreement for further details, at
+# https://fpgasoftware.intel.com/eula.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus Prime
+# Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
+# Date created = 21:42:25  October 19, 2021
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		mdr_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus Prime software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
+set_global_assignment -name FAMILY "Cyclone IV E"
+set_global_assignment -name DEVICE EP4CE115F29C7
+set_global_assignment -name TOP_LEVEL_ENTITY mdr_top
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 20.1.1
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "21:42:25  OCTOBER 19, 2021"
+set_global_assignment -name LAST_QUARTUS_VERSION "20.1.1 Lite Edition"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
+set_global_assignment -name NOMINAL_CORE_SUPPLY_VOLTAGE 1.2V
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name SYSTEMVERILOG_FILE src/decoder_decimal_seven_segments.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/converter_c2_to_decimal.sv
+set_global_assignment -name QIP_FILE src/pll_50MHz.qip
+set_global_assignment -name SYSTEMVERILOG_FILE src/control_mdr.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/reg_flip_flop.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/counter_modn_overflow.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/fsm_debouncer_pkg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/fsm_debouncer.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/debouncer.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/counter_binary_overflow.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/converter_binary_to_c2.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/converter_c2_to_bin.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/reg_pipo.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/substracter.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/mdr_top.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/operands.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/mux_5_1.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/mux_4_1.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/mux_3_1.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/mux_2_1.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/mdr_pkg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/alu.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/adder.sv
+set_location_assignment PIN_R24 -to start
+set_location_assignment PIN_N21 -to load
+set_location_assignment PIN_M23 -to rst
+set_location_assignment PIN_Y23 -to op[1]
+set_location_assignment PIN_Y24 -to op[0]
+set_location_assignment PIN_Y2 -to clk
+set_location_assignment PIN_AB28 -to data[0]
+set_location_assignment PIN_AC28 -to data[1]
+set_location_assignment PIN_AC27 -to data[2]
+set_location_assignment PIN_AD27 -to data[3]
+set_location_assignment PIN_AB27 -to data[4]
+set_location_assignment PIN_AC26 -to data[5]
+set_location_assignment PIN_AD26 -to data[6]
+set_location_assignment PIN_AB26 -to data[7]
+set_location_assignment PIN_AC25 -to data[8]
+set_location_assignment PIN_AB25 -to data[9]
+set_location_assignment PIN_H15 -to error
+set_location_assignment PIN_G22 -to load_x
+set_location_assignment PIN_G20 -to load_y
+set_location_assignment PIN_E21 -to ready
+set_location_assignment PIN_G19 -to remainder[0]
+set_location_assignment PIN_E19 -to remainder[2]
+set_location_assignment PIN_F19 -to remainder[1]
+set_location_assignment PIN_F21 -to remainder[3]
+set_location_assignment PIN_F18 -to remainder[4]
+set_location_assignment PIN_E18 -to remainder[5]
+set_location_assignment PIN_J19 -to remainder[6]
+set_location_assignment PIN_H19 -to remainder[7]
+set_location_assignment PIN_J17 -to remainder[8]
+set_location_assignment PIN_G17 -to remainder[9]
+set_location_assignment PIN_Y19 -to segments_sign
+set_location_assignment PIN_G18 -to segments_units[0]
+set_location_assignment PIN_F22 -to segments_units[1]
+set_location_assignment PIN_E17 -to segments_units[2]
+set_location_assignment PIN_L26 -to segments_units[3]
+set_location_assignment PIN_L25 -to segments_units[4]
+set_location_assignment PIN_J22 -to segments_units[5]
+set_location_assignment PIN_H22 -to segments_units[6]
+set_location_assignment PIN_M24 -to segments_tens[0]
+set_location_assignment PIN_Y22 -to segments_tens[1]
+set_location_assignment PIN_W21 -to segments_tens[2]
+set_location_assignment PIN_W22 -to segments_tens[3]
+set_location_assignment PIN_W25 -to segments_tens[4]
+set_location_assignment PIN_U23 -to segments_tens[5]
+set_location_assignment PIN_U24 -to segments_tens[6]
+set_location_assignment PIN_AA25 -to segments_hundreds[0]
+set_location_assignment PIN_AA26 -to segments_hundreds[1]
+set_location_assignment PIN_Y25 -to segments_hundreds[2]
+set_location_assignment PIN_W26 -to segments_hundreds[3]
+set_location_assignment PIN_Y26 -to segments_hundreds[4]
+set_location_assignment PIN_W27 -to segments_hundreds[5]
+set_location_assignment PIN_W28 -to segments_hundreds[6]
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

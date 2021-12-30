@@ -60,42 +60,57 @@ begin
    clk = 0;
    rst = 0;
    #2 rst = 1;
-   
+
+   /****************************/
+   /* MULTIPLICATION OPERATION */
+   /****************************/
    // Select op, then press start
    op = 0;
    #3 start = 0;
    start = 1; #2
    start = 0;
-   // Select data, then press load (load x) //
-   data   = 10'd115;
+   // Load X
+   data    = 10'd37;
    #2 load = 1;
    #2 load = 0;
-   
-
-   // Select data, then press load (load y) //
-   #2 data   = 10'd115;
+   // Load Y
+   #2 data = 10'd5;
    #2 load = 1;
    #2 load = 0;
-   
+   #(2*IN_DW + 4)
 
-  #(2*IN_DW + 2)
-
-  /*
-   // Select op, then press start //
-   op = 0;
+   /****************************/
+   /*    DIVISION OPERATION    */
+   /****************************/
+   // Select op, then press start
+   op = 1;
    start = 0;
    start = 1; #2
    start = 0;
-   // Select data, then press load (load x) //
-   data   = 10'd13;
+   // Load X
+   data    = 10'd37;
    #2 load = 1;
    #2 load = 0;
-   // Select data, then press load (load y) //
-   #2 data   = 10'd7;
+   // Load Y
+   #2 data = 10'd5;
    #2 load = 1;
    #2 load = 0;
-   */
-   #50
+   #(2*IN_DW + 4)
+   
+   /****************************/
+   /*   SQUARE ROOT OPERATION  */
+   /****************************/
+   // Select op, then press start
+   op = 2;
+   #3 start = 0;
+   start = 1; #2
+   start = 0;
+   // Load X
+   data    = 10'd37;
+   #2 load = 1;
+   #2 load = 0;
+   #(2*IN_DW + 10)
+
    $stop;
 end
 

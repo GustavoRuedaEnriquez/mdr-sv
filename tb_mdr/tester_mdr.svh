@@ -1,7 +1,5 @@
 // Coder: DSc Abisai Ramirez Perez
 // Date:  2020, 28th May
-// Disclaimer: This code is not intended to be shared. It is 
-// intended to be used for ITESO students at DVVSD Class 2020
 
 class tester_mdr ;
 
@@ -105,7 +103,6 @@ task automatic inj_two_data(data_t x_in, data_t y_in );
       #(PERIOD)   itf.load = TRUE;
       @(posedge itf.ready) ;
    join
-   $display("Aca");
    #(PERIOD)   itf.load = FALSE;
     //$display("Inject int: x: %0d y: %0d",x_in, y_in);
 endtask
@@ -128,11 +125,9 @@ task automatic inj_one_data( data_t x_int_r );
 //                q_a.push_front(x_int_r);
    fork
       #(PERIOD)   itf.load = TRUE;
-      $display("Aca 2");
       @(posedge itf.ready);
    join
     #(PERIOD)   itf.load = FALSE;
-    $display("Aca 3");
 endtask
 
 //***    Inject data for multiplication and division   ***//
@@ -155,47 +150,43 @@ endtask
 task automatic inject_all_data_r();
     for (x_r =LIMINF; x_r<LIMSUP ; x_r=x_r + INC ) begin
         #(3*PERIOD) inj_one_data(x_r);
-        //@(posedge itf.ready || itf.error );
-        //if (1'b0== itf.ready) begin
-        //end
     end
 endtask
 
 //***    Inject data for all operations   ***//
 task automatic inject_all_data_mdr();
 
-   $display("MULTIPLICATION OPERATION %0dns", $time);
+   $display("\n ------ MULTIPLICATION OPERATION %0dns ------", $time);
    itf.op = MULTI;
    inject_all_data_md();
    
-   $display("DIVISION  OPERATION %0dns", $time);
+   $display("\n ------ DIVISION  OPERATION %0dns ------", $time);
    #(PERIOD)   itf.op = DIV;
    inject_all_data_md();
 
-   $display("SQRT %0dns", $time);
+   $display("\n ------ SQUARE ROOT %0dns ------", $time);
    #(PERIOD)   itf.op = SQRT;
    inject_all_data_r();
 endtask 
 
 
 task automatic init();
-   itf.op      = FALSE ;
-   itf.data    = FALSE ;
-   itf.start   = FALSE ;
-   itf.load    = FALSE ;
+   itf.op    = FALSE ;
+   itf.data  = FALSE ;
+   itf.start = FALSE ;
+   itf.load  = FALSE ;
 endtask
 
 // ***      Calculate result based on operation     ***//
 task op_calc (op_e op, data_t x, data_t y);
     if (op == MULTI) begin
-        remainer_exp_tb     = 'd0;
-        temp_result         = x*y;
-        error_exp_tb        = (temp_result>(2**(DW-1)-1)) || (temp_result<(-2**(DW-1) )) ;
-        //$display("%0d",temp_result);
-        result_exp_tb       =(error_exp_tb)?(-1):(temp_result);
+        remainer_exp_tb = 'd0;
+        temp_result     = x*y;
+        error_exp_tb    = (temp_result>(2**(DW-1)-1)) || (temp_result<(-2**(DW-1) )) ;
+        result_exp_tb   =(error_exp_tb)?(-1):(temp_result);
     end
     else if (op==DIV) begin
-        error_exp_tb        = (x == 0) ;
+        error_exp_tb = (x == 0) ;
         if(y/x == 512) begin
            result_exp_tb   = -512;
            remainer_exp_tb = 0;
@@ -215,7 +206,6 @@ endtask
 
 task automatic open_file();
     text_id = $fopen("report.txt", "w");
-    //$display("File open %0d", text_id);
 endtask
 
 task automatic close_file();
@@ -230,16 +220,12 @@ task automatic review_output ();
    for (op_o =OP_INIT; op_o<=OP_LAST ; op_o++ ) begin
       for (int x_o =LIMINF; x_o<LIMSUP ; x_o=x_o+INC ) begin
          for (int y_o =LIMINF; y_o<LIMSUP ; y_o=y_o + INC) begin
-            $display("[%0dns] op: %0d, x: %0d, y: %0d\n",$time, op_o, x_o, y_o);
-            //@(posedge itf.ready || itf.error == 1)
-            //if (1'b0== itf.ready)begin
             @(posedge itf.ready);
-            //end
             #(DLY*PERIOD)
-            //$display("File open %0d", text_id);
             if (itf.op == MULTI) begin
                x_o_q   = q_a.pop_front();
                y_o_q   = q_b.pop_front();
+               $display("[%0dns] op: %0d, x: %0d, y: %0d",$time, op_o, x_o_q, y_o_q);
                op_calc(itf.op, x_o_q, y_o_q);
 
                if ( (itf.result != result_exp_tb)  || (error_exp_tb != itf.error)) begin
@@ -254,30 +240,28 @@ task automatic review_output ();
                   count_mult =count_mult + 1;
                end
             end
-            else if (itf.op==DIV) begin
+            else if (itf.op == DIV) begin
                x_o_q   = q_a.pop_front();
                y_o_q   = q_b.pop_front();
+               $display("[%0dns] op: %0d, x: %0d, y: %0d",$time, op_o, x_o_q, y_o_q);
                op_calc(itf.op, x_o_q, y_o_q);
                if ( (itf.result != result_exp_tb)  || (remainer_exp_tb != itf.remainder) || (error_exp_tb != itf.error)) begin
                   $fwrite(text_id, "[%0d], op: %0d, x: %0d, y: %0d,    ExpError: %0d HwErr: %0d,    Exp Result: %0d Hw Res:%0d,    Exp Rem: %0d Hw Rem: %0d \n",
-                     $time, itf.op, x_o_q, y_o_q, error_exp_tb, itf.error, 
-                     result_exp_tb, itf.result, remainer_exp_tb, itf.remainder);
+                     $time, itf.op, x_o_q, y_o_q, error_exp_tb, itf.error, result_exp_tb, itf.result, remainer_exp_tb, itf.remainder);
                   $display("[%0dns] [ERROR] op: %0d, x: %0d, y: %0d,   Exp Result:%0d Hw Res:%0d,   Exp Rem: %0d Hw Rem: %0d  Exp tb err: %0d  HW err: %0d\n", 
-                     $time, itf.op, x_o_q, y_o_q, result_exp_tb, itf.result,
-                     remainer_exp_tb, itf.remainder, error_exp_tb, itf.error );
+                     $time, itf.op, x_o_q, y_o_q, result_exp_tb, itf.result, remainer_exp_tb, itf.remainder, error_exp_tb, itf.error );
                   count_divi =count_divi +1;
                end
             end
             else if (itf.op == SQRT) begin
                x_o_q   = q_a.pop_front();
+               $display("[%0dns] op: %0d, x: %0d",$time, op_o, x_o_q);
                op_calc(itf.op, x_o_q, y_o_q);
                if ( (itf.result != result_exp_tb)  || (remainer_exp_tb != itf.remainder) || (error_exp_tb != itf.error)) begin
                   $fwrite(text_id, "Time:%0d, op: %0d, x: %0d, ExpError: %0d HwErr: %0d, Exp Result:%0d Hw Res:%0d, Exp Rem: %0d Hw Rem: %0d \n",
-                     $time, itf.op, x_o_q, error_exp_tb, itf.error, 
-                     result_exp_tb, itf.result, remainer_exp_tb, itf.remainder);
-               $display("[%0dns] ERROR: op: %0d, x: %0d, Exp Result:%0d Hw Res:%0d, Exp Rem: %0d Hw Rem: %0d \n", 
-                  $time, itf.op, x_o_q, result_exp_tb, itf.result, 
-                  remainer_exp_tb, itf.remainder );
+                      $time, itf.op, x_o_q, error_exp_tb, itf.error, result_exp_tb, itf.result, remainer_exp_tb, itf.remainder);
+                  $display("[%0dns] ERROR: op: %0d, x: %0d, Exp Result:%0d Hw Res:%0d, Exp Rem: %0d Hw Rem: %0d \n", 
+                      $time, itf.op, x_o_q, result_exp_tb, itf.result, remainer_exp_tb, itf.remainder );
                   count_sqrt =count_sqrt +1;
                end
             end
@@ -287,9 +271,9 @@ task automatic review_output ();
          end
       end
    end
-   calf_m = ( real'(count_mult)/real'(BASE_MD) ) *100;
-   calf_d = ( real'(count_divi)/real'(BASE_MD) ) *100;
-   calf_s = ( real'(count_sqrt)/real'(BASE_S) ) *100;
+   calf_m = (real'(count_mult)/real'(BASE_MD)) * 100;
+   calf_d = (real'(count_divi)/real'(BASE_MD)) * 100;
+   calf_s = (real'(count_sqrt)/real'(BASE_S) ) * 100;
    $display("[%0d] Tested: %0d \n", $time,  TESTED);
    $display("Errors on Multiplication: %0d, Error percentage: %3.2f %%",count_mult, calf_m);
    $display("Errors on Division: %0d, Error percentage: %3.2f %%",count_divi, calf_d);

@@ -1,7 +1,7 @@
 # System Verilog MDR module
-- [Introduction](##introduction)
-- [Detailed I/O](##detailed-i/o)
-- [Algorithms used](##algorithms-used)
+- [Introduction](#introduction)
+- [Detailed I/O](#detailed-io)
+- [Algorithms used](#algorithms-used)
 
 ## Introduction
 Project that contains an arithmetic module that is able to calculates the multiplication, division or square root of signed integers up to 10 bits. Coded in System Verilog.

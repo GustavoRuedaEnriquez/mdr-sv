@@ -4,8 +4,8 @@
 //                -> IDLE
 //                -> LOAD_X
 //                -> LOAD_Y
-//    				-> ERROR
-//				  		-> PROCCESSING
+//    			  -> ERROR
+//				  -> PROCCESSING
 // Project      : MDR
 // File         : control_mdr.sv
 // Description  : File that contains the definition of the control unit.
@@ -99,8 +99,8 @@ always_comb begin
 		end	
 		STATE_LOAD_Y:
 		begin
-		   /* Validate if the negative square root error or division by 0 error */
-			if(in_start == '0 && in_load == 1'b0 && ((op == SQRT && in_data_x[DW_MDR-1] == 1'b1) || (op == DIV && in_data_x == '0)))
+		   /* Validate if division by 0 error */
+			if(in_start == '0 && in_load == 1'b0 && (op == DIV && in_data_x == '0))
 				next_state 	= STATE_ERROR;
 			/* If y is loaded, proceed to process the information */
 			else if(in_start == '0 && in_load == 1'b1 && counter_first == '0 && counter_overflow == '0)
@@ -111,7 +111,7 @@ always_comb begin
 		end
 		STATE_PROCESSING:
 		begin
-		/* If N cycles have paased, the algorithm should be finished */
+		   /* If N cycles have passed, the algorithm should be finished */
 		   if(in_start == '0 && counter_first == '0 && counter_overflow == 1'b1)
 				next_state 	= STATE_IDLE;
 			else if (op == SQRT && in_data_x[DW_MDR-1] == 1'b1)
@@ -121,7 +121,7 @@ always_comb begin
 		end
 		STATE_ERROR:  
 		begin
-		/* If N cycles have paased, the algorithm should be finised */
+		/* If N cycles have passed, the algorithm should be finised */
 		   if(in_start == '0 && counter_first == '0 && counter_overflow == 1'b1)
 				next_state 	= STATE_IDLE;
 			else 

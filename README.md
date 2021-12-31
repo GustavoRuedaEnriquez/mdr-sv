@@ -1,6 +1,7 @@
 # System Verilog MDR module
 - [Introduction](#introduction)
 - [Detailed I/O](#detailed-io)
+- [Running on simulation](#running-on-simulation)
 - [Algorithms used](#algorithms-used)
 
 ## Introduction
@@ -32,6 +33,34 @@ Each of the I/O ports has a purpose, the table below contains all the detailed d
 | load y    | output   | Signal that indicates the module is ready for the data y to be entered. The data y on the multiplication represents the multiplier and on division is the dividend (if the operation is square root, this signal is never activated). |
 | error     | output   | Error signal (division by 0, square root of a negative number).                                                                                                                              |
 | ready     | output   | Signal that indicates the module ir ready to perform an operation.                                                                                                                           |
+
+## Running on simulation
+There are 2 types of simulation: simple and complete. The _simple simulation_ is contained on the [tb_simple](https://github.com/GustavoRuedaEnriquez/mdr-sv/blob/master/tb_simple/) directory and consists on a simple testbench that tests all 3 arithmetic operations using the same x, y values:
+
+* $37(5)$
+* $\frac{37}{5}$
+* $\sqrt{37}$
+
+The complete simulation is contained on the [tb_mdr](https://github.com/GustavoRuedaEnriquez/mdr-sv/blob/master/tb_simple/) directory and consists on the testbench that test all the possible combinations of the arithmetic operations, by the default the testbench runs with a size _n_ of 10-bit signed integers, so it takes around 30 minutes to execute and validate all 2,098,176 operations.
+
+$$
+\begin{aligned}
+ operations =  2^{2n+1} + 2^{n}
+\end{aligned}
+$$
+
+Running the simple simulation on Modelsim:
+```bash
+cd REPO_PATH/tb_simple;
+do run.do
+```
+
+Running the complete simulation on Modelsim:
+```bash
+cd REPO_PATH/tb_mdr;
+do run_top.do
+```
+
 ## Algorithms used
 ### Multiplication algorithm
 The Booth's multiplication algorithm was used.

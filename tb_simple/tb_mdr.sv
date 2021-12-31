@@ -10,6 +10,7 @@
 
 module tb_mdr;
 
+// DATA WIDTH (MAX. 10 bits)
 localparam IN_DW = 10;
 
 //Inputs
@@ -61,9 +62,9 @@ begin
    rst = 0;
    #2 rst = 1;
 
-   /****************************/
-   /* MULTIPLICATION OPERATION */
-   /****************************/
+   //////////////////////////////
+   // MULTIPLICATION OPERATION //
+   //////////////////////////////
    // Select op, then press start
    op = 0;
    #3 start = 0;
@@ -79,9 +80,9 @@ begin
    #2 load = 0;
    #(2*IN_DW + 4)
 
-   /****************************/
-   /*    DIVISION OPERATION    */
-   /****************************/
+   //////////////////////////////
+   //    DIVISION OPERATION    //
+   //////////////////////////////
    // Select op, then press start
    op = 1;
    start = 0;
@@ -97,9 +98,9 @@ begin
    #2 load = 0;
    #(2*IN_DW + 4)
    
-   /****************************/
-   /*   SQUARE ROOT OPERATION  */
-   /****************************/
+   //////////////////////////////
+   //   SQUARE ROOT OPERATION  //
+   //////////////////////////////
    // Select op, then press start
    op = 2;
    #3 start = 0;

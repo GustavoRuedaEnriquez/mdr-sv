@@ -37,17 +37,18 @@ Each of the I/O ports has a purpose, the table below contains all the detailed d
 ## Running on simulation
 There are 2 types of simulation: simple and complete. The _simple simulation_ is contained on the [tb_simple](https://github.com/GustavoRuedaEnriquez/mdr-sv/blob/master/tb_simple/) directory and consists on a simple testbench that tests all 3 arithmetic operations using the same x, y values:
 
-* $37(5)$
-* $\frac{37}{5}$
-* $\sqrt{37}$
+* <!-- $37(5)$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=37(5)">
+* <!-- $\frac{37}{5}$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cfrac%7B37%7D%7B5%7D">
+* <!-- $\sqrt{37}$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Csqrt%7B37%7D">
 
 The complete simulation is contained on the [tb_mdr](https://github.com/GustavoRuedaEnriquez/mdr-sv/blob/master/tb_simple/) directory and consists on the testbench that test all the possible combinations of the arithmetic operations, by the default the testbench runs with a size _n_ of 10-bit signed integers, so it takes around 30 minutes to execute and validate all 2,098,176 operations.
 
-$$
+<!-- $$
 \begin{aligned}
  operations =  2^{2n+1} + 2^{n}
 \end{aligned}
-$$
+$$ --> 
+<div align="center"><img style="background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cbegin%7Baligned%7D%0D%0A%20operations%20%3D%20%202%5E%7B2n%2B1%7D%20%2B%202%5E%7Bn%7D%0D%0A%5Cend%7Baligned%7D%0D"></div>
 
 Running the simple simulation on Modelsim:
 ```bash

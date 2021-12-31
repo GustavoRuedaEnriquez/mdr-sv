@@ -41,7 +41,7 @@ There are 2 types of simulation: simple and complete. The _simple simulation_ is
 * $\frac{37}{5}$
 * $\sqrt{37}$
 
-The complete simulation is contained on the [tb_mdr](https://github.com/GustavoRuedaEnriquez/mdr-sv/blob/master/tb_simple/) directory and consists on the testbench that test all the possible combinations of the arithmetic operations, by the default the testbench runs with a size _n_ of 10-bit signed integers, so it takes around 30 minutes to execute and validate all 2,098,176 operations.
+The complete simulation is contained on the [tb_mdr](https://github.com/GustavoRuedaEnriquez/mdr-sv/blob/master/tb_mdr/) directory and consists on the testbench that test all the possible combinations of the arithmetic operations, by the default the testbench runs with a size _n_ of 10-bit signed integers, so it takes around 30 minutes to execute and validate all 2,098,176 operations.
 
 $$
 \begin{aligned}

@@ -196,11 +196,14 @@ task op_calc (op_e op, data_t x, data_t y);
     end
     else if (op==DIV) begin
         error_exp_tb        = (x == 0) ;
-        result_exp_tb       = (error_exp_tb)? (-1): (y / x);
-        remainer_exp_tb     = (error_exp_tb)? (0) :y - result_exp_tb*x;
-        //error_exp_tb        = (y == 0) ;
-        //result_exp_tb       = (error_exp_tb)? (-1): (x/y);
-        //remainer_exp_tb     = (error_exp_tb)? (-1) : ( x - result_exp_tb*y);
+        if(y/x == 512) begin
+           result_exp_tb   = -512;
+           remainer_exp_tb = 0;
+        end
+        else begin
+          result_exp_tb   = (error_exp_tb)? (-1): (y / x);
+          remainer_exp_tb = (error_exp_tb)? (0) :y - result_exp_tb*x;
+        end
     end
     else if (op == SQRT) begin
         error_exp_tb        = (x < 0) ;
@@ -240,12 +243,12 @@ task automatic review_output ();
                op_calc(itf.op, x_o_q, y_o_q);
 
                if ( (itf.result != result_exp_tb)  || (error_exp_tb != itf.error)) begin
-                  $fwrite(text_id, "[%0dns] ERROR: op: %0d, x: %0d, y: %0d, \
+                  $fwrite(text_id, "[%0dns] [ERROR] op: %0d, x: %0d, y: %0d, \
                      ExpError: %0d HwErr: %0d, Exp Result:%0d Hw Res:%0d, \
                      Exp Rem: %0d Hw Rem: %0d \n", $time, itf.op, x_o_q, y_o_q,
                      error_exp_tb, itf.error, result_exp_tb, itf.result, 
                      remainer_exp_tb, itf.remainder );
-                  $display("[%0dns] ERROR:, op: %0d, x: %0d, y: %0d, Exp Result:%0d, Hw Res:%0d, Exp Rem: %0d Hw Rem: %0d \n", 
+                  $display("[%0dns] [ERROR] op: %0d, x: %0d, y: %0d, Exp Result:%0d, Hw Res:%0d, Exp Rem: %0d Hw Rem: %0d \n", 
                      $time, itf.op, x_o_q, y_o_q, result_exp_tb, itf.result, 
                      remainer_exp_tb, itf.remainder );
                   count_mult =count_mult + 1;
@@ -259,7 +262,7 @@ task automatic review_output ();
                   $fwrite(text_id, "[%0d], op: %0d, x: %0d, y: %0d,    ExpError: %0d HwErr: %0d,    Exp Result: %0d Hw Res:%0d,    Exp Rem: %0d Hw Rem: %0d \n",
                      $time, itf.op, x_o_q, y_o_q, error_exp_tb, itf.error, 
                      result_exp_tb, itf.result, remainer_exp_tb, itf.remainder);
-                  $display("[%0dns] ERROR: op: %0d, x: %0d, y: %0d,   Exp Result:%0d Hw Res:%0d,   Exp Rem: %0d Hw Rem: %0d  Exp tb err: %0d  HW err: %0d\n", 
+                  $display("[%0dns] [ERROR] op: %0d, x: %0d, y: %0d,   Exp Result:%0d Hw Res:%0d,   Exp Rem: %0d Hw Rem: %0d  Exp tb err: %0d  HW err: %0d\n", 
                      $time, itf.op, x_o_q, y_o_q, result_exp_tb, itf.result,
                      remainer_exp_tb, itf.remainder, error_exp_tb, itf.error );
                   count_divi =count_divi +1;
@@ -287,10 +290,10 @@ task automatic review_output ();
    calf_m = ( real'(count_mult)/real'(BASE_MD) ) *100;
    calf_d = ( real'(count_divi)/real'(BASE_MD) ) *100;
    calf_s = ( real'(count_sqrt)/real'(BASE_S) ) *100;
-   $display("[%0d] Tested: %0d,\n Errors on Multiplication:%0d, Percent error:\
-%3.2f\n Errors on Division: %0d, Percent error: %3.2f,\n Erros on Square root:\
-   %0d, Percent error: %3.2f", 
-   $time,  TESTED, count_mult, calf_m, count_divi, calf_d, count_sqrt, calf_s);
+   $display("[%0d] Tested: %0d \n", $time,  TESTED);
+   $display("Errors on Multiplication: %0d, Error percentage: %3.2f %%",count_mult, calf_m);
+   $display("Errors on Division: %0d, Error percentage: %3.2f %%",count_divi, calf_d);
+   $display("Errors on Square root: %0d, Error percentage: %3.2f %%\n",count_sqrt, calf_s);
 endtask 
 
 `endprotect

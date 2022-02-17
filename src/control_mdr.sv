@@ -4,8 +4,8 @@
 //                -> IDLE
 //                -> LOAD_X
 //                -> LOAD_Y
-//    			  -> ERROR
-//				  -> PROCCESSING
+//    	          -> ERROR
+//	          -> PROCCESSING
 // Project      : MDR
 // File         : control_mdr.sv
 // Description  : File that contains the definition of the control unit.
